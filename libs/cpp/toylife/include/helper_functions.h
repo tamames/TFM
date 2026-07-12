@@ -9,6 +9,7 @@
 #include <random>
 #include <sstream> //std::stringstream
 #include <string>  //std::string
+#include <utility>
 #include <vector>  //std::vector
 
 // BINOMIAL COEFFICIENT
@@ -31,8 +32,9 @@ T binomial_coefficient(unsigned long n, unsigned long k) {
     b = 1;
     for (i = 1; i <= k; ++i) {
         b *= (n - (k - i));
-        if (b < 0)
+        if (b < 0) {
             return -1; /* Overflow */
+        }
         b /= i;
     }
     return b;
@@ -58,20 +60,22 @@ double union_seq3(int side1, const std::string& met);
 inline std::string dectobin(int decimal,
                             const int size) { // converts decimal integers into binary std::strings
     std::string binary(size, '0');
-    for (int i = size - 1; i > -1; --i)
+    for (int i = size - 1; i > -1; --i) {
         if (decimal / std::pow(2, i) >= 1) {
             binary[size - i - 1] = '1';
-            decimal              = decimal - pow(2, i);
+            decimal              = decimal - static_cast<int>(std::pow(2, i));
         }
+    }
     return binary;
 };
 // BINARY TO DECIMAL
 inline int bintodec(const std::string& binary) { // converts binary strings
                                                  // into decimal integers
-    int decimal     = 0;
-    int binary_size = binary.size();
-    for (int i = 0; i < binary_size; ++i)
-        decimal += std::pow(2, binary_size - i - 1) * (binary[i] - '0');
+    int decimal             = 0;
+    std::size_t binary_size = binary.size();
+    for (int i = 0; std::cmp_less(i, binary_size); ++i) {
+        decimal += static_cast<int>(std::pow(2, binary_size - i - 1)) * (binary[i] - '0');
+    }
     return decimal;
 };
 // BASE 10 TO BASE n
@@ -80,28 +84,32 @@ inline std::vector<int> base_10_to_n(int decimal, int n) { // converts decimal i
     std::vector<int> seq(size, 0);
     for (int i = size - 1; i > -1; --i) {
         int r = decimal % n;
-        for (int j = 0; j < n; ++j)
-            if (r == j)
+        for (int j = 0; j < n; ++j) {
+            if (r == j) {
                 seq[i] = j;
+            }
+        }
         decimal /= n;
-        if (decimal == 0)
+        if (decimal == 0) {
             break;
+        }
     }
     return seq;
 };
 // BASE n TO BASE 10
 inline int base_n_to_10(const std::string& binary,
                         int n) { // converts binary strings into decimal integers
-    int decimal     = 0;
-    int binary_size = binary.size();
-    for (int i = 0; i < binary_size; ++i)
-        decimal += std::pow(n, binary_size - i - 1) * (binary[i] - '0');
+    int decimal             = 0;
+    std::size_t binary_size = binary.size();
+    for (int i = 0; std::cmp_less(i, binary_size); ++i) {
+        decimal += static_cast<int>(std::pow(n, binary_size - i - 1)) * (binary[i] - '0');
+    }
     return decimal;
 };
 // VECTOR TO STRING
 inline std::string vec_to_str(const std::vector<int>& vec) {
     std::string str(vec.size(), '0');
-    for (int i = 0; i < str.size(); ++i) {
+    for (int i = 0; std::cmp_less(i, str.size()); ++i) {
         std::stringstream ss;
         ss << vec[i];
         ss >> str[i];
@@ -111,8 +119,9 @@ inline std::string vec_to_str(const std::vector<int>& vec) {
 // STRING TO VECTOR
 inline std::vector<int> str_to_vec(const std::string& str) {
     std::vector<int> vec(str.size(), 0);
-    for (int i = 0; i < vec.size(); ++i)
+    for (int i = 0; std::cmp_less(i, vec.size()); ++i) {
         vec[i] = str[i] - '0';
+    }
     return vec;
 };
 // HAMMING

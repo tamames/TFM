@@ -85,7 +85,7 @@ int main() {
             std::cout << currentTime() << "   writing data" << std::endl;
         }
         // we write only if the population is not dead
-        std::vector<std::vector<std::string>> dataOfSimulation = population.getPopulationData();
+        dataOfSimulation = population.getPopulationData();
         populationWriting(dataOfSimulation, i, dataDirectory);
 
         if (print) {

@@ -31,14 +31,17 @@ struct Dim {
     Prot p1;
     Prot p2;
     bool operator<(const Dim& rhs) const { // in order to compare and use this in maps
-        if (id < rhs.id)
+        if (id < rhs.id) {
             return 1;
-        else if (id == rhs.id)
-            if (p1 < rhs.p1)
+        } else if (id == rhs.id) {
+            if (p1 < rhs.p1) {
                 return 1;
-            else if (p1 == rhs.p1)
-                if (p2 < rhs.p2)
+            } else if (p1 == rhs.p1) {
+                if (p2 < rhs.p2) {
                     return 1;
+                }
+            }
+        }
         return 0;
     } // operator<
     bool operator==(const Dim& rhs) const { return (id == rhs.id && p1 == rhs.p1 && p2 == rhs.p2); }
@@ -52,14 +55,17 @@ struct OWM {
     Dim dim;
     Met met;
     bool operator<(const OWM& rhs) const { // in order to compare and use this in maps
-        if (prot < rhs.prot)
+        if (prot < rhs.prot) {
             return 1;
-        else if (prot == rhs.prot)
-            if (dim < rhs.dim)
+        } else if (prot == rhs.prot) {
+            if (dim < rhs.dim) {
                 return 1;
-            else if (dim.id == rhs.dim.id && dim.p1 == rhs.dim.p1 && dim.p2 == rhs.dim.p2)
-                if (met < rhs.met)
+            } else if (dim.id == rhs.dim.id && dim.p1 == rhs.dim.p1 && dim.p2 == rhs.dim.p2) {
+                if (met < rhs.met) {
                     return 1;
+                }
+            }
+        }
         return 0;
     } // operator<
 };
